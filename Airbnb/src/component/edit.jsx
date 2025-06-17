@@ -1,91 +1,101 @@
-import React, { use, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-function () {
+import React, { useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import '../assets/Edit.css'; // ✅ Import the CSS file
 
-  const navigate = useNavigate()
+function Edit() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const obj = location.state || {};
+  const id = useParams().id;
 
+  const [title, setTitle] = useState(obj.title);
+  const [description, setDescription] = useState(obj.description);
+  const [country, setCountry] = useState(obj.country);
+  const [price, setPrice] = useState(obj.price);
+  const [locationValue, setLocation] = useState(obj.location);
+  const [image, setImage] = useState(obj.image);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [country, setCountry] = useState("");
-  const [price, setPrice] = useState(0);
-  const [location, setLocation] = useState("");
-  const [image,setImage] = useState("");
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevent form reload
-
-    const formData = { title, description, price, country, location,image };
+    e.preventDefault();
+    const formData = { title, description, price, country, location: locationValue, image };
 
     try {
-      const response = await fetch("http://localhost:8080/listings/new", {
-        method: "POST",
+      const response = await fetch(`http://localhost:8080/listings/${id}/edit`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }).then((res)=>{
-         console.log(res)
-         return res;
-      })
-      .catch((err)=>console.log("hi i an error" + err));
+      });
 
       const result = await response.json();
       console.log("Success:", result);
-      navigate("/listings"); 
+      if(result.iserror)
+      {
+        console.log("error: " + await result.message + await result.status)
+        console.log(result)
+        return navigate("/listings/error")
+      }
+      navigate(-2);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   return (
-    <div className="main">
-      <form onSubmit={handleSubmit} >
+    <div className="edit-container">
+      <form onSubmit={handleSubmit} className="edit-form">
         <input
           type="text"
           value={title}
           placeholder="Enter Title"
           onChange={(e) => setTitle(e.target.value)}
+          className="edit-input"
         />
-        <br /> <br />
+
         <textarea
           value={description}
           placeholder="Write something about this place"
           onChange={(e) => setDescription(e.target.value)}
+          className="edit-textarea"
         ></textarea>
 
-        <br /><br />
-          <input
+        <input
           type="url"
           value={image}
-          placeholder="Enter url of image"
+          placeholder="Enter URL of image"
           onChange={(e) => setImage(e.target.value)}
+          className="edit-input"
         />
-        <br /><br />
+
         <input
           type="number"
           value={price}
           placeholder="Cost in rupees"
           onChange={(e) => setPrice(e.target.value)}
+          className="edit-input"
         />
-        <br /><br />
- <input type="text"
-                  value={location}
-                  placeholder='Enter Location'
-                  onChange={(e)=> setLocation(e.target.value)}
-             />
-<br /><br />
-         <input type="text"
-                  value={country}
-                  placeholder='country'
-                  onChange={(e)=> setCountry(e.target.value)}
-             />
-             <br /><br />
 
-             <button type="submit">Create</button>
+        <input
+          type="text"
+          value={locationValue}
+          placeholder="Enter Location"
+          onChange={(e) => setLocation(e.target.value)}
+          className="edit-input"
+        />
+
+        <input
+          type="text"
+          value={country}
+          placeholder="Country"
+          onChange={(e) => setCountry(e.target.value)}
+          className="edit-input"
+        />
+
+        <button type="submit" className="edit-button">Update</button>
       </form>
     </div>
   );
 }
 
-export default New;
+export default Edit;

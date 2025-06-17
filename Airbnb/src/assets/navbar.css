@@ -1,0 +1,45 @@
+
+
+.box{
+     /* background-color:black; */
+    background-color: rgba(17, 17, 17, 1);
+  color:#ff385c;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  position:sticky;
+  z-index: 10;
+  top:0;
+  border-bottom: 1px solid white;
+}
+
+.box1 {
+  font-size: 26px;
+  opacity: 0;
+  transform: translateY(-60px);
+  /* IMPORTANT: Add transition:none if needed to avoid flicker */
+}
+.box2 span {
+  opacity: 0;
+  transform: translateX(35px);
+  /* You can add user-select:none or pointer-events:none during animation if you want */
+}
+.navbtn{
+     all: unset;
+}
+
+.box2{
+  display: flex;
+  gap: 35px;
+  justify-items:center;
+ justify-content: space-between;
+
+}
+
+span{
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}

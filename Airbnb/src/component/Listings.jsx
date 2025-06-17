@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+
 // import { Button } from "@/components/ui/button"; 
 function Listings() {
   const [count, setCount] = useState(0);
@@ -30,16 +31,32 @@ function Listings() {
 
   return (
     <>
+  
       <main>
         <h1>All Listings</h1>
-         <Link to="/listings/new" ><button>Create New</button></Link>
-        <ul>
+        
+        <ul   style={{
+    listStyleType: "none",
+    display: "flex",
+    flexWrap: "wrap",       // 💡 Enables wrapping
+    gap: "5px",            // Optional: spacing between items
+    justifyContent: "center", // Optional: center items
+    padding: "0",           // Removes default padding
+  }} >
+
           {listings.map((listing) => (
-            <li key={listing._id}>
-              <Link to={`/listings/${listing._id}`}>
-                {listing.title} 
-              </Link>
+
+            <Link  key={listing._id}  to={`/listings/${listing._id}`} style={{color:"beige",textDecoration:"none",fontSize:"20px"}}>
+            <li style={{margin:"30px",
+              
+            }} > 
+            <div><img src={listing.image} width="300px" height={300} style={{borderRadius:"3px",boxShadow:"0px 0px 5px 1px white"}} alt="" /></div>
+              
+              <p> {listing.title} </p> 
+              <p>₹ {listing.price.toLocaleString("en-IN")} / night</p>
+              
             </li>
+              </Link>
           ))}
         </ul>
       </main>
