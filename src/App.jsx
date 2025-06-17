@@ -5,7 +5,7 @@ import ListShow from './component/ListShow'
 import New from './component/New'
 import Edit from './component/edit'
 import Navbar from './component/Navbar'
-import "../src/index.css"
+import "./index.css"
 import Footer from './component/footer'
 import ErrorPage from './component/ErrorPage'
 function App() {
